@@ -1,0 +1,29 @@
+import time
+
+from selenium import webdriver
+import selenium.webdriver.chrome.service as service
+
+service = service.Service('/Applications/drivers/chromedriver')
+service.start()
+capabilities = {'chrome.binary': '/path/to/custom/chrome'}
+driver = webdriver.Remote(service.service_url, capabilities)
+driver.get("http://stermedia.pl/kontakt")
+name = driver.find_element_by_name("contact_name")
+name.send_keys("xyz")
+
+mail = driver.find_element_by_name("email")
+mail.send_keys("test@test")
+
+subject = driver.find_element_by_xpath('//*[@id="url"]')
+subject.send_keys("test by xyz")
+comment = driver.find_element_by_id("comment")
+comment.send_keys("first test at selenium")
+
+driver.maximize_window()
+driver.save_screenshot("sformularz.png")
+
+driver.find_element_by_xpath('//*[@id="submit"]').click()
+
+driver.save_screenshot("submit.png")
+
+time.sleep(30)
